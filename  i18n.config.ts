@@ -12,6 +12,8 @@ const resources = {
       source: 'source',
       settings: 'settings',
       news: 'news',
+      english: 'english',
+      france: 'france',
     },
   },
   fr: {
@@ -24,6 +26,8 @@ const resources = {
       source: 'la source',
       settings: 'paramètres',
       news: 'Nouvelles',
+      english: 'anglaise',
+      france: 'La France',
     },
   },
 };
