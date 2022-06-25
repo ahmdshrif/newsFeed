@@ -13,7 +13,7 @@ const resources = {
       settings: 'Settings',
       news: 'News',
       english: 'English',
-      france: 'France',
+      french: 'French',
     },
   },
   fr: {
@@ -27,7 +27,7 @@ const resources = {
       settings: 'Paramètres',
       news: 'Nouvelles',
       english: 'Anglaise',
-      france: 'La France',
+      french: 'française',
     },
   },
 };
