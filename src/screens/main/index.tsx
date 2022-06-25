@@ -2,10 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, FlatList, TextInput} from 'react-native';
 
 import NewsCard from '../../components/NewsCard';
-import wikidata from './fakeData.js';
 import {newsFeedInterface} from '../../types';
 import {getTopNews, searchInNews} from '../../services/api';
-// const data: newsFeedInterface[] = wikidata.articles;
 
 const Main = ({navigation}: any) => {
   const [news, setNews] = useState<newsFeedInterface[]>([]);
