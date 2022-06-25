@@ -10,6 +10,8 @@ const resources = {
       author: 'author',
       time: 'time',
       source: 'source',
+      settings: 'settings',
+      news: 'news',
     },
   },
   fr: {
@@ -20,6 +22,8 @@ const resources = {
       author: 'auteur',
       time: 'temps',
       source: 'la source',
+      settings: 'paramètres',
+      news: 'Nouvelles',
     },
   },
 };
