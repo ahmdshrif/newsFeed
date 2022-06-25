@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {defaultImageUri} from '../../constants';
 import {newsFeedInterface} from '../../types';
+import {useTranslation} from 'react-i18next';
 
 interface propsTypes {
   route: {params: {data: newsFeedInterface}};
@@ -9,7 +10,7 @@ interface propsTypes {
 export default function Details(props: propsTypes) {
   const {data} = props.route.params;
   const [isImageError, setIsImageError] = React.useState(false);
-
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -28,15 +29,21 @@ export default function Details(props: propsTypes) {
         <Text style={styles.title}>{data.title}</Text>
         <View style={styles.subInfo}>
           {data.author && (
-            <Text style={styles.author}> {`Author ${data.author}`}</Text>
+            <Text style={styles.author}>
+              {' '}
+              {`${t('author')}: ${data.author}`}
+            </Text>
           )}
           {data.publishedAt && (
-            <Text style={styles.time}> {`time:  ${data.publishedAt}`}</Text>
+            <Text style={styles.time}>
+              {' '}
+              {`${t('time')}:  ${data.publishedAt}`}
+            </Text>
           )}
           {data.source?.name && (
             <Text style={styles.source}>
               {' '}
-              {`source:  ${data.source?.name}`}
+              {`${t('source')}:  ${data.source?.name}`}
             </Text>
           )}
         </View>

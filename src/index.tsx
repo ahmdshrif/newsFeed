@@ -13,16 +13,25 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {MainScreen, DetailScreen} from './screens';
+import {useTranslation} from 'react-i18next';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const isDarkMode = useColorScheme() === 'dark';
-
+  const {t} = useTranslation();
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={MainScreen} />
-        <Stack.Screen name="Details" component={DetailScreen} />
+        <Stack.Screen
+          name="Home"
+          options={{title: t('home')}}
+          component={MainScreen}
+        />
+        <Stack.Screen
+          name="Details"
+          options={{title: t('details')}}
+          component={DetailScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

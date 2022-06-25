@@ -4,6 +4,7 @@ import {StyleSheet, View, FlatList, TextInput} from 'react-native';
 import NewsCard from '../../components/NewsCard';
 import {newsFeedInterface} from '../../types';
 import {getTopNews, searchInNews} from '../../services/api';
+import {useTranslation} from 'react-i18next';
 
 const Main = ({navigation}: any) => {
   const [news, setNews] = useState<newsFeedInterface[]>([]);
@@ -34,9 +35,11 @@ const Main = ({navigation}: any) => {
       onPress={() => navigation.navigate('Details', {data: item})}
     />
   );
+  const {t} = useTranslation();
+
   return (
     <View style={styles.container}>
-      <TextInput onChangeText={_searchInNews} placeholder="search" />
+      <TextInput onChangeText={_searchInNews} placeholder={t('search')} />
       <FlatList
         contentContainerStyle={styles.flatListContainer}
         data={news}
