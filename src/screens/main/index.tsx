@@ -7,9 +7,12 @@ import {getTopNews, searchInNews} from '../../services/api';
 
 const Main = ({navigation}: any) => {
   const [news, setNews] = useState<newsFeedInterface[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const _getTopNews = async () => {
+    setIsLoading(true);
     const data = await getTopNews();
     setNews(data);
+    setIsLoading(false);
   };
 
   const _searchInNews = async (keyword: string) => {
@@ -40,7 +43,7 @@ const Main = ({navigation}: any) => {
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={item => item.url}
-        refreshing
+        refreshing={isLoading}
         onRefresh={_getTopNews}
       />
     </View>
