@@ -1,30 +1,55 @@
-import React from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
-import NewsCard from '../../components/NewsCard';
-import fakedata from './fakeData.js';
-const data = fakedata.articles;
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, FlatList, TextInput} from 'react-native';
 
-const main = () => {
-  //   const getMoreData = () => {};
+import NewsCard from '../../components/NewsCard';
+import wikidata from './fakeData.js';
+import {newsFeedInterface} from '../../types';
+import {getTopNews, searchInNews} from '../../services/api';
+// const data: newsFeedInterface[] = wikidata.articles;
+
+const Main = ({navigation}: any) => {
+  const [news, setNews] = useState<newsFeedInterface[]>([]);
+  const _getTopNews = async () => {
+    const data = await getTopNews();
+    setNews(data);
+  };
+
+  const _searchInNews = async (keyword: string) => {
+    if (!keyword) {
+      _getTopNews();
+      return;
+    }
+    const data = await searchInNews(keyword);
+    setNews(data);
+  };
+
+  useEffect(() => {
+    _getTopNews();
+  }, []);
+
+  const renderItem = ({item}: {item: newsFeedInterface}) => (
+    <NewsCard
+      data={item}
+      onPress={() => navigation.navigate('Details', {data: item})}
+    />
+  );
   return (
     <View style={styles.container}>
+      <TextInput onChangeText={_searchInNews} placeholder="search" />
       <FlatList
         contentContainerStyle={styles.flatListContainer}
-        data={data}
+        data={news}
         numColumns={2}
-        renderItem={({item}) => (
-          <NewsCard uri={item.urlToImage} header={item.title} />
-        )}
-        keyExtractor={item => item.title}
-        // onEndReached={getMoreData}
-        // ListFooterComponent={()=>isload?<ActivityIndicator/>:<></>}
-        // onRefresh={getData}
+        renderItem={renderItem}
+        keyExtractor={item => item.url}
+        refreshing
+        onRefresh={_getTopNews}
       />
     </View>
   );
 };
 
-export default main;
+export default Main;
 
 const styles = StyleSheet.create({
   container: {

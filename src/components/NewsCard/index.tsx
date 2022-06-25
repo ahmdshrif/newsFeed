@@ -8,19 +8,36 @@ import {
   Pressable,
 } from 'react-native';
 import {defaultImageUri} from '../../constants';
+import {newsFeedInterface} from '../../types';
 
 const screen = Dimensions.get('screen');
 
-const NewsCard = ({uri, header}: {uri: string | null; header: string}) => {
+const NewsCard = ({
+  data,
+  onPress,
+}: {
+  data: newsFeedInterface;
+  onPress: Function;
+}) => {
+  const [isImageError, setIsImageError] = React.useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri: uri ?? defaultImageUri}} />
+        <Image
+          style={styles.image}
+          source={{
+            uri:
+              data.urlToImage && !isImageError
+                ? data.urlToImage
+                : defaultImageUri,
+          }}
+          onError={() => setIsImageError(true)}
+        />
       </View>
       <Pressable
         style={styles.textContainer}
-        onPress={() => console.log('navigate to details page')}>
-        <Text style={styles.headerName}>{header}</Text>
+        onPress={(event: Event) => onPress?.(event)}>
+        <Text style={styles.headerName}>{data.title}</Text>
       </Pressable>
     </View>
   );
