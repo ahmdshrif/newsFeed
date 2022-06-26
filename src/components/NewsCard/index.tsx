@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {defaultImageUri} from '../../constants';
 import {newsFeedInterface} from '../../types';
+import {useTheme} from '@react-navigation/native';
 
 const screen = Dimensions.get('screen');
 
@@ -20,8 +21,10 @@ const NewsCard = ({
   onPress: Function;
 }) => {
   const [isImageError, setIsImageError] = React.useState(false);
+  const {colors} = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.card}]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -35,9 +38,11 @@ const NewsCard = ({
         />
       </View>
       <Pressable
-        style={styles.textContainer}
+        style={[styles.textContainer]}
         onPress={(event: Event) => onPress?.(event)}>
-        <Text style={styles.headerName}>{data.title}</Text>
+        <Text style={[styles.headerName, {color: colors.text}]}>
+          {data.title}
+        </Text>
       </Pressable>
     </View>
   );
@@ -47,7 +52,6 @@ export default NewsCard;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     alignItems: 'center',
     width: screen.width * 0.42,
     margin: 10,

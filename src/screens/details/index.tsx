@@ -3,22 +3,29 @@ import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {defaultImageUri} from '../../constants';
 import {newsFeedInterface} from '../../types';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 
 interface propsTypes {
   route: {params: {data: newsFeedInterface}};
 }
 export default function Details(props: propsTypes) {
-  const {data} = props.route.params;
+  let {data} = props.route.params;
+  data = data ?? props.route.params;
   const [isImageError, setIsImageError] = React.useState(false);
+  const {colors} = useTheme();
   const {t} = useTranslation();
+
+  const SubText = ({children}: {children: any}) => (
+    <Text style={[styles.subtitle, {color: colors.text}]}>{children} </Text>
+  );
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.card}]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
           source={{
             uri:
-              data.urlToImage && !isImageError
+              data?.urlToImage && !isImageError
                 ? data.urlToImage
                 : defaultImageUri,
           }}
@@ -26,29 +33,20 @@ export default function Details(props: propsTypes) {
         />
       </View>
       <ScrollView contentContainerStyle={styles.textContainer}>
-        <Text style={styles.title}>{data.title}</Text>
+        <Text style={[styles.title, {color: colors.text}]}>{data.title}</Text>
         <View style={styles.subInfo}>
-          {data.author && (
-            <Text style={styles.author}>
-              {' '}
-              {`${t('author')}: ${data.author}`}
-            </Text>
-          )}
+          {data.author && <SubText>{`${t('author')}: ${data.author}`}</SubText>}
           {data.publishedAt && (
-            <Text style={styles.time}>
-              {' '}
-              {`${t('time')}:  ${data.publishedAt}`}
-            </Text>
+            <SubText>{`${t('time')}: ${data.publishedAt}`}</SubText>
           )}
           {data.source?.name && (
-            <Text style={styles.source}>
-              {' '}
-              {`${t('source')}:  ${data.source?.name}`}
-            </Text>
+            <SubText>{`${t('source')}: ${data.source?.name}`}</SubText>
           )}
         </View>
         <View />
-        <Text style={styles.content}>{data.content}</Text>
+        <Text style={[styles.content, {color: colors.text}]}>
+          {data.content}
+        </Text>
       </ScrollView>
     </View>
   );
@@ -73,16 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  author: {
-    color: 'black',
-    fontSize: 10,
-  },
-  time: {
-    color: 'black',
-    fontSize: 10,
-  },
-  source: {
-    color: 'black',
+  subtitle: {
     fontSize: 10,
   },
   subInfo: {
@@ -98,6 +87,6 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
     padding: 5,
-    minHeight: 50,
+    height: '100%',
   },
 });

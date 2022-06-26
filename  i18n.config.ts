@@ -14,6 +14,7 @@ const resources = {
       news: 'News',
       english: 'English',
       french: 'French',
+      language: 'Language',
     },
   },
   fr: {
@@ -28,13 +29,14 @@ const resources = {
       news: 'Nouvelles',
       english: 'Anglaise',
       french: 'française',
+      language: 'Langue',
     },
   },
 };
 
 i18n.use(initReactI18next).init({
   resources,
-  fallbackLng: 'fr',
+  fallbackLng: 'en',
   interpolation: {
     escapeValue: false, // not needed for react!!
   },

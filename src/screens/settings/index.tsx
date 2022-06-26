@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Switch} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {Picker} from '@react-native-picker/picker';
 import i18n from 'i18next';
+import {useTheme} from '@react-navigation/native';
 
 export default function Details() {
   const {t} = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState<string>();
+  const {colors} = useTheme();
+  // const [isDarkMode, setIsDarkMode] = useState(colors.background === 'black');
   const changeLanguage = (value: string | undefined) => {
     if (!value) {
       return;
@@ -17,14 +20,31 @@ export default function Details() {
 
   return (
     <View style={styles.container}>
+      {/* <View style={styles.SwitchSection}>
+        <View style={styles.SwitchSectionLeft}>
+          <Text style={[styles.label, {color: colors.text}]}>
+            {'isDarkMode'}
+          </Text>
+        </View>
+        <View style={styles.SwitchSectionRight}>
+          <Switch onValueChange={setIsDarkMode} value={isDarkMode} />
+        </View>
+      </View> */}
       <View style={styles.section}>
-        <Text style={styles.label}> language </Text>
+        <Text style={[styles.label, {color: colors.text}]}>
+          {t('language')}
+        </Text>
         <Picker
-          style={styles.picker}
+          style={{
+            ...styles.picker,
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           selectedValue={selectedLanguage}
           onValueChange={(itemValue, _) => changeLanguage(itemValue)}>
-          <Picker.Item label={t('english')} value="en" />
-          <Picker.Item label={t('french')} value="fr" />
+          <Picker.Item color={colors.text} label={t('english')} value="en" />
+          <Picker.Item color={colors.text} label={t('french')} value="fr" />
         </Picker>
       </View>
     </View>
@@ -45,16 +65,23 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   picker: {
-    backgroundColor: '#F1F3F4',
-    color: 'black',
     minWidth: 100,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#BABCBE',
     paddingVertical: 14,
     paddingHorizontal: 8,
     borderRadius: 4,
     marginBottom: 10,
     marginVertical: 4,
     padding: 10,
+  },
+  SwitchSection: {
+    width: '100%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 10,
+  },
+  SwitchSectionLeft: {},
+  SwitchSectionRight: {
+    paddingRight: 10,
   },
 });

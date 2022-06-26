@@ -5,10 +5,13 @@ import NewsCard from '../../components/NewsCard';
 import {newsFeedInterface} from '../../types';
 import {getTopNews, searchInNews} from '../../services/api';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 
 const Main = ({navigation}: any) => {
   const [news, setNews] = useState<newsFeedInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {colors} = useTheme();
+
   const _getTopNews = async () => {
     setIsLoading(true);
     const data = await getTopNews();
@@ -39,7 +42,12 @@ const Main = ({navigation}: any) => {
 
   return (
     <View style={styles.container}>
-      <TextInput onChangeText={_searchInNews} placeholder={t('search')} />
+      <TextInput
+        style={[styles.textInput, {color: colors.text}]}
+        placeholderTextColor={colors.border}
+        onChangeText={_searchInNews}
+        placeholder={t('search')}
+      />
       <FlatList
         contentContainerStyle={styles.flatListContainer}
         data={news}
@@ -64,4 +72,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   flatListContainer: {flexGrow: 1, alignItems: 'center'},
+  textInput: {
+    padding: 10,
+  },
 });
